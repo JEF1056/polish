@@ -1,8 +1,8 @@
-from flask import Flask
+from flask import Flask, render_template
 # pip install flask
 app = Flask(__name__)
-@app.route("/")
+@app.route('/html')
 
 def home():
-   return “This is the <h1>home page</h1>”
+   return render_template('page.html')
    app.run()
