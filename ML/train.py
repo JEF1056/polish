@@ -32,7 +32,7 @@ model.train(train_df=train_ds,
             batch_size = 68,
             max_epochs = 25,
             use_gpu = True,
-            outputdir = "models/asset_jfleg_completion",
+            outputdir = "models/improve_complete",
             early_stopping_patience_epochs = 3,
             precision = 16
             )
