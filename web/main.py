@@ -1,11 +1,9 @@
 from flask import Flask, render_template, send_from_directory
 import os
-import sentencepiece as spm
+
 
 app = Flask(__name__)
 model_path = "../model"
-sp = spm.SentencePieceProcessor()
-sp.load(os.path.join(model_path, "tokenizer", 'spiece.model'))
 
 @app.route('/model/<path:filename>', methods=['GET'])
 def download_model(filename):
