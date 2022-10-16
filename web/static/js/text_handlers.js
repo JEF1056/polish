@@ -23,7 +23,7 @@ function init_writing() {
     </div>
     `
     body.innerHTML = `
-    <div class="navbar bg-neutral">
+    <div class="navbar bg-neutral rounded-b-lg">
         <div class="flex-1">
             <a class="btn btn-ghost normal-case text-xl">Polish 💅</a>
         </div>
@@ -55,7 +55,7 @@ document.onkeydown = function (event) {
     update_text_from_buffers()
     if (warmed_up && textarea !== null)  {
         event = event || window.event;
-        if (!(last_key in ["Meta", "Alt", "Control"])) {
+        if (last_key !== "Control") {
             switch(event.key) {
                 case "Backspace":
                     buffer = buffer.slice(0, -1)
@@ -71,15 +71,24 @@ document.onkeydown = function (event) {
                         buffer += event.key
                     }
             }
-        } else if (last_key == "Control" && event.key.toLowerCase() == "v") {
+        } else if (last_key === "Control" && event.key.toLowerCase() === "v") {
+            console.log("bruh")
             setTimeout(async () => {
                 buffer += await navigator.clipboard.readText();
-            }, 2000);
+            }, 1000);
         }
     }
     update_text_from_buffers()
     last_key = event.key
 };
+
+function accept_completion() {
+    last_completion_buffer = completion_buffer
+    completion_buffer = ""
+    update_text_from_buffers()
+    buffer += last_completion_buffer
+    update_text_from_buffers()
+}
 
 document.onkeyup = function () {
     clearTimeout(completionTimeout)
@@ -98,10 +107,10 @@ function update_text_from_buffers() {
     diff = Diff.diffWords(buffer, improvement_buffer);
     diff.forEach(element => {
         const color = element.added ? 'green' : element.removed ? 'red' : 'grey';
-        build += `<span class="text-${color}-200">${element.value}</span>`
+        build += `<span class="text-${color}-200 hover:bg-base-300 rounded-lg">${element.value}</span>`
     });
     
-    build = build.replaceAll("\n", "<br>") + '<span id="cursor">| </span>' + `<span style="opacity:50%"> ${completion_buffer}</span>`
+    build = build.replaceAll("\n", "<br>") + '<span id="cursor">| </span>' + `<span style="opacity:50%" class="hover:bg-base-300 rounded-lg"> ${completion_buffer}</span>`
 
     textarea.innerHTML = build
 }
