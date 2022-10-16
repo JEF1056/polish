@@ -1,0 +1,27 @@
+<pre id="display"></pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.1.0/diff.min.js"></script>
+<script>
+const one = 'I want a cat',
+    other = 'I have a cat',
+    color = '';
+
+let span = null;
+
+const diff = Diff.diffWord(one, other),
+    display = document.getElementById('display'),
+    fragment = document.createDocumentFragment();
+
+diff.forEach((part) => {
+  // green for additions, red for deletions
+  // grey for common parts
+  const color = part.added ? 'green' :
+    part.removed ? 'red' : 'grey';
+  span = document.createElement('span');
+  span.style.color = color;
+  span.appendChild(document
+    .createTextNode(part.value));
+  fragment.appendChild(span);
+});
+
+display.appendChild(fragment);
+</script>
