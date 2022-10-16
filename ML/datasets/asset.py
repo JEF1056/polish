@@ -31,7 +31,7 @@ splits_orig = {
 
 def cleanup(text):
     while "  " in text:
-        text = text.replace("  ", "")
+        text = text.replace("  ", " ")
         
     return text.strip()
 
