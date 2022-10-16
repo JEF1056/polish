@@ -39,7 +39,7 @@ model_worker.addEventListener("message", (event) => {
                 completion_buffer = detokenize(message['tokens'])
                 update_text_from_buffers()
             } else if (message['id'] == "improve") {
-                grammar_summary_buffer = detokenize(message['tokens'])
+                improvement_buffer = detokenize(message['tokens'])
                 update_text_from_buffers()
             }
             break
