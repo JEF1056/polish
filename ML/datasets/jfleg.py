@@ -29,9 +29,8 @@ def format(path):
                 for i in range(len(splits_orig[split])):
                     source = cleanup(splits_orig[split][i])
                     target = cleanup(data[i])
-                    est_min = len(source) - len(target)
                     # Going to overwrite the model's existing "summarize:" prefix to speed up training
-                    source = "grammar: " + source
+                    source = "improve: " + source
                     splits[split].append([source, target])
 
 format(dev)

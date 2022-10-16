@@ -2,14 +2,14 @@ import pandas as pd
 import random
 import os
 
-root = "completion"
+root = "ML/datasets/completion"
 
 # Load the csv as a pandas dataframe
-train_ds_asset = pd.read_csv("asset/valid.csv").dropna().astype(str)
-valid_ds_asset = pd.read_csv("asset/test.csv").dropna().astype(str)
+train_ds_asset = pd.read_csv("ML/datasets/asset/valid.csv").dropna().astype(str)
+valid_ds_asset = pd.read_csv("ML/datasets/asset/test.csv").dropna().astype(str)
 
-train_ds_jfleg = pd.read_csv("jfleg/dev.csv").dropna().astype(str)
-valid_ds_jfleg = pd.read_csv("jfleg/test.csv").dropna().astype(str)
+train_ds_jfleg = pd.read_csv("ML/datasets/jfleg/dev.csv").dropna().astype(str)
+valid_ds_jfleg = pd.read_csv("ML/datasets/jfleg/test.csv").dropna().astype(str)
 
 train_ds = pd.concat([train_ds_asset, train_ds_jfleg], axis=0)
 valid_ds = pd.concat([valid_ds_asset, valid_ds_jfleg], axis=0)

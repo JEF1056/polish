@@ -34,7 +34,7 @@ for file in os.listdir(root):
                 # Only accept sentences smaller than the origin
                 if est_min < 0: continue
                 # Going to overwrite the model's existing "summarize:" prefix to speed up training
-                source = "summarize: " + source
+                source = "improve: " + source
                 splits[split].append([source, target])
 
 # Print some tokenized statistics (for reference later in training)
