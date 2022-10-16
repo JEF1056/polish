@@ -1,6 +1,12 @@
 const model_worker = new Worker("static/js/model_worker.js");
 let warmed_up = false
+let warmup_prompt = "How do you spell"
 
+fetch('/static/midnightquotes.txt').then(response => response.text()).then((data) => {
+    if (data) {
+        warmup_prompt = data.split('\n').sample()
+    }
+}).catch(err => console.error(err));
 
 function predict(input) {
     // Model worker accepts UUID and message id
@@ -16,8 +22,8 @@ model_worker.addEventListener("message", (event) => {
         case 'info':
             switch (message["details"]) {
                 case 'loaded':
-                    set_warmup("Preparing to warm up ...")
-                    predict("complete: That's good, that's fine, it's")
+                    set_warmup(warmup_prompt + " ...")
+                    predict("complete: " + warmup_prompt)
                     break
                 case 'loading':
                     set_progress(message["progress"], false)
