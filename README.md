@@ -1,2 +1,1 @@
-# grammarly pls dont sue :,)
-"grammarly"™️
+Polish💅
