@@ -1,5 +1,5 @@
 const model_worker = new Worker("static/js/model_worker.js");
-let warmed_up = false
+warmed_up = false
 let warmup_prompt = "How do you spell"
 
 fetch('/static/midnightquotes.txt').then(response => response.text()).then((data) => {
