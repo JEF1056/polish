@@ -8,8 +8,11 @@ valid_ds_asset = pd.read_csv("datasets/asset/test.csv").dropna().astype(str)
 train_ds_jfleg = pd.read_csv("datasets/jfleg/dev.csv").dropna().astype(str)
 valid_ds_jfleg = pd.read_csv("datasets/jfleg/test.csv").dropna().astype(str)
 
-train_ds = pd.concat([train_ds_asset, train_ds_jfleg], axis=0)
-valid_ds = pd.concat([valid_ds_asset, valid_ds_jfleg], axis=0)
+train_ds_completion = pd.read_csv("datasets/jfleg/dev.csv").dropna().astype(str)
+valid_ds_completion = pd.read_csv("datasets/jfleg/test.csv").dropna().astype(str)
+
+train_ds = pd.concat([train_ds_asset, train_ds_jfleg, train_ds_completion], axis=0)
+valid_ds = pd.concat([valid_ds_asset, valid_ds_jfleg, valid_ds_completion], axis=0)
 
 # Beleive it or not, this is how you shuffle lmao
 train_ds = train_ds.sample(frac=1).reset_index(drop=True)

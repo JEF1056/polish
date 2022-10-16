@@ -17,7 +17,7 @@ model_worker.addEventListener("message", (event) => {
             switch (message["details"]) {
                 case 'loaded':
                     set_warmup("Preparing to warm up ...")
-                    predict("summarize: JavaScript code is often several lines long. It is more common to see event attributes calling functions")
+                    predict("complete: That's good, that's fine, it's")
                     break
                 case 'loading':
                     set_progress(message["progress"], false)

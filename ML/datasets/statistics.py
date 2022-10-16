@@ -6,7 +6,7 @@ from transformers import AutoTokenizer
 temp = {}
 tokenizer = AutoTokenizer.from_pretrained("t5-small")
 
-for folder in ["asset", "jfleg"]:
+for folder in ["asset", "jfleg", "completion"]:
     temp[folder] = {}
     for file in os.listdir(folder):
         if file.endswith(".csv"):
