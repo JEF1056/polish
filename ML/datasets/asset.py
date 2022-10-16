@@ -4,7 +4,7 @@ import json
 import pandas as pd
 from transformers import AutoTokenizer
 
-root = "dataset"
+root = "ML/datasets/asset"
 
 tokenizer = AutoTokenizer.from_pretrained("t5-small")
 
@@ -35,7 +35,7 @@ def cleanup(text):
         
     return text.strip()
 
-for file in os.listdir("dataset"):
+for file in os.listdir(root):
     if not file.endswith(".orig"):
         with open(os.path.join(root, file), "r") as f:
             split = file.split(".")[1]
@@ -44,12 +44,15 @@ for file in os.listdir("dataset"):
                 source = cleanup(splits_orig[split][i])
                 target = cleanup(data[i])
                 est_min = len(source) - len(target)
-                # if est_min < 0: continue
+                # Only accept sentences smaller than the origin
+                if est_min < 0: continue
+                # Going to overwrite the model's existing "summarize:" prefix to speed up training
                 source = "summarize: " + source
                 splits[split].append([source, target])
                 lengths[split]['source'].append(len(tokenizer(source, return_tensors="pt").input_ids[0]))
                 lengths[split]['target'].append(len(tokenizer(target, return_tensors="pt").input_ids[0]))
 
+# Print some tokenized statistics
 for split in splits:
     for group in lengths[split]:
         lenlist = copy.deepcopy(lengths[split][group])
@@ -60,6 +63,6 @@ for split in splits:
             "std_dev": (sum([((x - sum(lenlist)/len(lenlist)) ** 2) for x in lenlist]) / len(lenlist)) ** 0.5
         }
     
-    pd.DataFrame(splits[split], columns = ["source_text", "target_text"]).to_csv("asset-"+split+".csv", index=False)
+    pd.DataFrame(splits[split], columns = ["source_text", "target_text"]).to_csv("asset/asset-"+split+".csv", index=False)
     
 print(json.dumps(lengths, indent=2))
