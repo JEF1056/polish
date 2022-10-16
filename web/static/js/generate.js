@@ -31,7 +31,11 @@ model_worker.addEventListener("message", (event) => {
             }
             break
         case 'work':
-            set_warmup(detokenize(message['tokens']))
+            if (!warmed_up) {
+                set_warmup(detokenize(message['tokens']))
+            } else if (message['id'] = "complete") {
+                
+            }
             break
         case 'done':
             if (!warmed_up) {

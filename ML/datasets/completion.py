@@ -19,6 +19,8 @@ for ds in [["train", train_ds], ["valid", valid_ds]]:
     for index, row in ds[1].iterrows():
         max_len = len(row["target_text"].split(" "))
         if max_len <= 2: continue
-        lists.append(["complete: " + ' '.join(row["target_text"].strip().split(" ")[0:random.randint(2, max_len-1)]).strip(), row["target_text"]])
+        select = random.randint(2, max_len-1)
+        subdiv = row["target_text"].strip().split(" ")
+        lists.append(["complete: " + ' '.join(subdiv[0:select]).strip(), ' '.join(subdiv[select:max_len]).strip()])
     
     pd.DataFrame(lists, columns = ["source_text", "target_text"]).to_csv(os.path.join(root, f"{ds[0]}.csv"), index=False)
