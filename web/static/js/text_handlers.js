@@ -33,7 +33,7 @@ function init_writing() {
 }
 
 function generate_from_buffer() {
-    predict("improve", "summarize: " + buffer.replaceAll("\n", " "))
+    predict("improve", "improve: " + buffer.replaceAll("\n", " "))
     predict("complete", "complete: " + buffer)
     completion_buffer = ""
     grammar_summary_buffer = ""
