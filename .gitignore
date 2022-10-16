@@ -132,3 +132,4 @@ exported*
 *.ckpt
 *.zip
 assetonly
+lightning_logs

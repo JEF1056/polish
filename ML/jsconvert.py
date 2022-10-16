@@ -5,8 +5,8 @@ import json
 import tensorflow as tf
 import sentencepiece as spm
 
-model = "/mnt/c/Users/jfan/Documents/GitHub/grammarly/ML/models/simplet5-epoch-3-train-loss-0.8535-val-loss-1.012"
-path = "exported/assetonly"
+model = "/mnt/c/Users/jfan/Documents/GitHub/grammarly/ML/models/asset_jfleg/simplet5-epoch-7-train-loss-0.7608-val-loss-0.8392"
+path = "exported/asset_jfleg"
 
 max_len = 64
 
