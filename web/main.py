@@ -3,7 +3,7 @@ import os
 
 
 app = Flask(__name__)
-model_path = "../model"
+model_path = "assetonly"
 
 @app.route('/model/<path:filename>', methods=['GET'])
 def download_model(filename):
@@ -15,7 +15,7 @@ def download_tokenizer(filename):
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template("index.html")
+    return render_template("test.html")
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

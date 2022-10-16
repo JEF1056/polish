@@ -1,29 +1,17 @@
 let loaded_model = null
 let vocab = JSON.parse(localStorage.getItem("vocab"))
 let vocab_model = JSON.parse(localStorage.getItem("vocab_model"))
-if (vocab === null) {
+let separator = "\u2581"
+
+if (vocab === null || vocab_model === null) {
     fetch('/tokenizer/vocab.json').then(result => result.json()).then((output) => {
         localStorage.setItem("vocab", JSON.stringify(output))
         vocab = output
     }).catch(err => console.error(err));
     fetch('/tokenizer/vocab_model.json').then(result => result.json()).then((output) => {
-        localStorage.setItem("vocab", JSON.stringify(output))
-        vocab = output
+        localStorage.setItem("vocab_model", JSON.stringify(output))
+        vocab_model = output
     }).catch(err => console.error(err));
-}
-
-function detokenize(input_ids) {
-    let [start, end] = [0, input_ids.length]
-    if (input_ids[0] == 0) {start = 1}
-    if (input_ids[input_ids.length-1] == 1) {end = -1}
-    return input_ids.slice(start, end).map(token => vocab[token]).join("").replaceAll("▁", " ").trim()
-}
-
-tokenizer = new SentencePieceTokenizer(vocab_model)
-
-// yay, boilerplate becasue I don't want to spend any effort rn
-function tokenize(text) {
-    return tokenizer.encode(text)
 }
 
 const stringToChars = (input) => {
@@ -148,7 +136,7 @@ class SentencePieceTokenizer {
         this.trie = new Trie();
 
         for (let i = 0; i < this.vocabulary.length; i++) {
-        this.trie.insert(this.vocabulary[i][0], this.vocabulary[i][1], i);
+            this.trie.insert(this.vocabulary[i][0], this.vocabulary[i][1], i);
         }
     }
 
@@ -223,4 +211,22 @@ class SentencePieceTokenizer {
         
         return merged.reverse();
     }
+}
+
+
+// Wow, finally writing some useful functions
+function detokenize(input_ids) {
+    let [start, end] = [0, input_ids.length]
+    if (input_ids[0] == 0) {start = 1}
+    if (input_ids[input_ids.length-1] == 1) {end = -1}
+    return input_ids.slice(start, end).map(token => vocab[token]).join("").replaceAll("▁", " ").trim()
+}
+
+tokenizer = new SentencePieceTokenizer(vocab_model)
+
+// yay, boilerplate becasue I don't want to spend any effort rn
+function tokenize(text) {
+    encoded = tokenizer.encode(text)
+    encoded.push(1)
+    return encoded
 }

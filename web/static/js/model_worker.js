@@ -4,6 +4,8 @@ importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.20.0/dist/tf.min.
 
 const max_len = 64;
 let model = null
+let temperature = 0.9
+let top_k = 10
 
 function top_k_top_p_filtering(logits, top_k, top_p) {
     // top_k refers to the top k highest values in the logits. 
@@ -29,7 +31,8 @@ function top_k_top_p_filtering(logits, top_k, top_p) {
 }
 
 function generate(event) {
-    var [id, input_ids, temperature, top_k] = event.data;
+    var [id, input_ids] = event.data;
+    console.log(id);
 
     // take input_ids array, add a bach dimension, and pad to length
     // create attention mask, which is 1s for any actual value and 0s for padding
@@ -107,6 +110,7 @@ tf.loadGraphModel('/model/model.json', {
     });
 }).then(() => {
     onmessage = (event) => {
+        console.log(event)
         tf.tidy(() => generate(event))
     }
 })

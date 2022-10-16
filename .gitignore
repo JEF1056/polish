@@ -130,3 +130,5 @@ dmypy.json
 model*
 exported*
 *.ckpt
+*.zip
+assetonly
