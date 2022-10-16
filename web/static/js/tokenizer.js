@@ -1,7 +1,12 @@
 let loaded_model = null
 let vocab = JSON.parse(localStorage.getItem("vocab"))
+let vocab_model = JSON.parse(localStorage.getItem("vocab_model"))
 if (vocab === null) {
     fetch('/tokenizer/vocab.json').then(result => result.json()).then((output) => {
+        localStorage.setItem("vocab", JSON.stringify(output))
+        vocab = output
+    }).catch(err => console.error(err));
+    fetch('/tokenizer/vocab_model.json').then(result => result.json()).then((output) => {
         localStorage.setItem("vocab", JSON.stringify(output))
         vocab = output
     }).catch(err => console.error(err));
@@ -14,9 +19,9 @@ function detokenize(input_ids) {
     return input_ids.slice(start, end).map(token => vocab[token]).join("").replaceAll("▁", " ").trim()
 }
 
-tokenizer = new SentencePieceTokenizer(
+tokenizer = new SentencePieceTokenizer(vocab_model)
 
-// yay, bpilerplate becasue my code really is garbage
+// yay, boilerplate becasue I don't want to spend any effort rn
 function tokenize(text) {
     return tokenizer.encode(text)
 }
