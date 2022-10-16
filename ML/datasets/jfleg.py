@@ -1,6 +1,5 @@
 import os
 import re
-import json
 import pandas as pd
 root = "ML/datasets/jfleg"
 dev = root + "/dev"
@@ -8,17 +7,6 @@ test = root + "/test"
 splits = {
     "dev": [],
     "test": []
-}
-
-lengths = {
-    "dev": {
-        "source": [],
-        "target": [],
-    },
-    "test": {
-        "source": [],
-        "target": [],
-    }
 }
 
 splits_orig = {
@@ -52,5 +40,3 @@ format(test)
 # Print some tokenized statistics (for reference later in training)
 for split in splits:
     pd.DataFrame(splits[split], columns = ["source_text", "target_text"]).to_csv(os.path.join(root, split+".csv"), index=False)
-print(json.dumps(lengths, indent=2))
-json.dump(lengths, open(os.path.join(root, "stats.json"), "w"), indent=2)

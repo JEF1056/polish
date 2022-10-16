@@ -1,6 +1,4 @@
 import os
-import copy
-import json
 import pandas as pd
 from transformers import AutoTokenizer
 
@@ -11,17 +9,6 @@ tokenizer = AutoTokenizer.from_pretrained("t5-small")
 splits = {
     "valid": [],
     "test": []
-}
-
-lengths = {
-    "valid": {
-        "source": [],
-        "target": [],
-    },
-    "test": {
-        "source": [],
-        "target": [],
-    }
 }
 
 splits_orig = {
@@ -49,21 +36,7 @@ for file in os.listdir(root):
                 # Going to overwrite the model's existing "summarize:" prefix to speed up training
                 source = "summarize: " + source
                 splits[split].append([source, target])
-                lengths[split]['source'].append(len(tokenizer(source, return_tensors="pt").input_ids[0]))
-                lengths[split]['target'].append(len(tokenizer(target, return_tensors="pt").input_ids[0]))
 
 # Print some tokenized statistics (for reference later in training)
-for split in splits:
-    for group in lengths[split]:
-        lenlist = copy.deepcopy(lengths[split][group])
-        lengths[split][group] = {
-            "min":min(lenlist),
-            "max":max(lenlist),
-            "avg":sum(lenlist)/len(lenlist),
-            "std_dev": (sum([((x - sum(lenlist)/len(lenlist)) ** 2) for x in lenlist]) / len(lenlist)) ** 0.5
-        }
-    
+for split in splits:    
     pd.DataFrame(splits[split], columns = ["source_text", "target_text"]).to_csv(os.path.join(root, split+".csv"), index=False)
-    
-print(json.dumps(lengths, indent=2))
-json.dump(lengths, open(os.path.join(root, "stats.json"), "w"), indent=2)
