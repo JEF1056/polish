@@ -6,7 +6,7 @@ import tensorflow as tf
 import sentencepiece as spm
 
 model = "/mnt/c/Users/jfan/Documents/GitHub/grammarly/ML/models/asset_jfleg/simplet5-epoch-7-train-loss-0.7608-val-loss-0.8392"
-path = "exported/asset_jfleg"
+path = "exported/asset_jfleg_completion"
 
 max_len = 64
 
