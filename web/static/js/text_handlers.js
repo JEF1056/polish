@@ -25,7 +25,7 @@ function init_writing() {
     body.innerHTML = `
     <div class="navbar bg-neutral rounded-b-lg">
         <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-xl">Polish 💅</a>
+            <a onclick=spawnnyaa() class="btn btn-ghost normal-case text-xl">Polish 💅</a>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal p-0">
