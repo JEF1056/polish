@@ -4,6 +4,7 @@ let improvement_buffer = ""
 let completionTimeout;
 
 const body = document.getElementById("body")
+const clickme = document.getElementById("clickme")
 textarea = null
 last_key = ''
 
@@ -105,6 +106,12 @@ document.onkeyup = function () {
 }
 
 // Prevent non-targeted space from adding space
+window.addEventListener('keydown', (e) => {  
+    if ((e.key === " " || e.key == "Tab") && e.target === document.body) {  
+        e.preventDefault();  
+    }  
+});
+
 window.addEventListener('keydown', (e) => {  
     if ((e.key === " " || e.key == "Tab") && e.target === document.body) {  
         e.preventDefault();  
