@@ -36,7 +36,7 @@ def cleanup(text):
     return text.strip()
 
 for file in os.listdir(root):
-    if not file.endswith(".orig"):
+    if not (file.endswith(".orig") or file.endswith(".json") or file.endswith("csv")):
         with open(os.path.join(root, file), "r") as f:
             split = file.split(".")[1]
             data = f.read().splitlines()
@@ -52,7 +52,7 @@ for file in os.listdir(root):
                 lengths[split]['source'].append(len(tokenizer(source, return_tensors="pt").input_ids[0]))
                 lengths[split]['target'].append(len(tokenizer(target, return_tensors="pt").input_ids[0]))
 
-# Print some tokenized statistics
+# Print some tokenized statistics (for reference later in training)
 for split in splits:
     for group in lengths[split]:
         lenlist = copy.deepcopy(lengths[split][group])
@@ -63,6 +63,7 @@ for split in splits:
             "std_dev": (sum([((x - sum(lenlist)/len(lenlist)) ** 2) for x in lenlist]) / len(lenlist)) ** 0.5
         }
     
-    pd.DataFrame(splits[split], columns = ["source_text", "target_text"]).to_csv("asset/asset-"+split+".csv", index=False)
+    pd.DataFrame(splits[split], columns = ["source_text", "target_text"]).to_csv(os.path.join(root, split+".csv"), index=False)
     
 print(json.dumps(lengths, indent=2))
+json.dump(lengths, open(os.path.join(root, "stats.json"), "w"), indent=2)

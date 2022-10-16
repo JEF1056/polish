@@ -1,6 +1,5 @@
 import pandas as pd
 from simplet5 import SimpleT5
-from sklearn.model_selection import train_test_split
 
 # Load the csv as a pandas dataframe
 train_ds = pd.read_csv("asset-valid.csv").dropna().astype(str)
