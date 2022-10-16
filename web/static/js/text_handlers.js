@@ -4,7 +4,6 @@ let improvement_buffer = ""
 let completionTimeout;
 
 const body = document.getElementById("body")
-const clickme = document.getElementById("clickme")
 textarea = null
 last_key = ''
 

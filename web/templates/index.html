@@ -7,7 +7,7 @@
 
     <input type="hidden" id="clickme"></input>
 
-    <body id="body" onclick="getElementById('clickme').click()">
+    <body id="body" onclick="if (warmed_up) {getElementById('clickme').focus(); getElementById('clickme').click(); console.log('yay');}">
         <div id="main_page" class="hero min-h-screen bg-base-400">
             <div class="hero-content text-center">
                 <div class="max-w-lg">
