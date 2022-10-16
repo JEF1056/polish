@@ -1,7 +1,23 @@
 
-const one = 'beep boop',
+
+let body = document.getElementById("body");
+body.addEventListener("keydown", func)
+let what = document.getElementById("wut");
+
+var one = '',
+    temp = '',
+    empty = '',
     other = 'I have a cas',
     color = '';
+
+
+function func(event) {
+    temp = body.innerHTML;
+    what = temp;
+    console.log(event);
+    one = temp;
+
+}
 
 let span = null;
 
@@ -20,5 +36,6 @@ diff.forEach((part) => {
     .createTextNode(part.value));
   fragment.appendChild(span);
 });
+
 
 display.appendChild(fragment);
