@@ -3,7 +3,7 @@ import os
 
 
 app = Flask(__name__)
-model_path = "asset_jfleg_completion"
+model_path = "asset_jfleg_completion-nobegin"
 
 @app.route('/model/<path:filename>', methods=['GET'])
 def download_model(filename):

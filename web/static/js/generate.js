@@ -8,12 +8,13 @@ fetch('/static/midnightquotes.txt').then(response => response.text()).then((data
     }
 }).catch(err => console.error(err));
 
-function predict(input) {
+function predict(id, input) {
     // Model worker accepts UUID and message id
     model_worker.postMessage([
-        "69420",
+        id,
         tokenize(input),
     ])
+    console.log("input", input)
 }
 
 model_worker.addEventListener("message", (event) => {
@@ -23,7 +24,7 @@ model_worker.addEventListener("message", (event) => {
             switch (message["details"]) {
                 case 'loaded':
                     set_warmup(warmup_prompt + " ...")
-                    predict("complete: " + warmup_prompt)
+                    predict("warmup", "complete: " + warmup_prompt)
                     break
                 case 'loading':
                     set_progress(message["progress"], false)
@@ -32,9 +33,14 @@ model_worker.addEventListener("message", (event) => {
             break
         case 'work':
             if (!warmed_up) {
-                set_warmup(detokenize(message['tokens']))
-            } else if (message['id'] = "complete") {
-                
+                detokenized = detokenize(message['tokens'])
+                set_warmup(warmup_prompt + (detokenized.startsWith(" ") ? detokenized : " " + detokenized))
+            } else if (message['id'] == "complete") {
+                completion_buffer = detokenize(message['tokens'])
+                update_text_from_buffers()
+            } else if (message['id'] == "improve") {
+                grammar_summary_buffer = detokenize(message['tokens'])
+                update_text_from_buffers()
             }
             break
         case 'done':
