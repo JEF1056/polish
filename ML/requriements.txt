@@ -1,2 +1,4 @@
 pandas
 simpleT5
+tensorflowjs
+sentencepiece
