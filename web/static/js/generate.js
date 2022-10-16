@@ -1,4 +1,6 @@
 const model_worker = new Worker("static/js/model_worker.js");
+let warmed_up = false
+
 
 function predict(input) {
     // Model worker accepts UUID and message id
@@ -14,20 +16,22 @@ model_worker.addEventListener("message", (event) => {
         case 'info':
             switch (message["details"]) {
                 case 'loaded':
-                    // init_entries();
+                    set_warmup("Preparing to warm up ...")
+                    predict("summarize: JavaScript code is often several lines long. It is more common to see event attributes calling functions")
                     break
                 case 'loading':
-                    // set_progress(message["progress"])
-                    console.log(message["progress"])
+                    set_progress(message["progress"], false)
                     break
             }
             break
         case 'work':
-            console.log(detokenize(message['tokens']))
+            set_warmup(detokenize(message['tokens']))
             break
         case 'done':
-            // timestamp_entry(message["id"], message["time"])
-            console.log(message["id"], message["time"])
+            if (!warmed_up) {
+                warmed_up = true
+                set_progress(message["time"], warmed_up)
+            }
             break
     }
 });

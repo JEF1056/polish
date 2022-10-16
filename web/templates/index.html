@@ -1,9 +1,42 @@
-<body id  = "body">
-    <pre id="display"></pre>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.1.0/diff.min.js"></script>
-    <script src="/static/js/diff.js"></script>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+</head>
 
+<div id="main_page" class="hero min-h-screen bg-base-400">
+    <div class="hero-content text-center">
+        <div class="max-w-md">
+            <h1 class="text-5xl font-bold">Polish 💅</h1>
+            <progress id="loading_progress" class="progress progress-primary w-56 my-6" value="" max="100"></progress>
+            <p id="loading_warmup">...</p>
+        </div>
+    </div>
+</div>
 
+<footer class="footer p-10 bg-neutral text-neutral-content">
+    <div>
+        <span class="footer-title">Services</span> 
+        <a class="link link-hover">Branding</a>
+        <a class="link link-hover">Design</a>
+        <a class="link link-hover">Marketing</a>
+        <a class="link link-hover">Advertisement</a>
+    </div> 
+    <div>
+        <span class="footer-title">Company</span> 
+        <a class="link link-hover">About us</a>
+        <a class="link link-hover">Contact</a>
+        <a class="link link-hover">Jobs</a>
+        <a class="link link-hover">Press kit</a>
+    </div> 
+    <div>
+        <span class="footer-title">Legal</span> 
+        <a class="link link-hover">Terms of use</a>
+        <a class="link link-hover">Privacy policy</a>
+        <a class="link link-hover">Cookie policy</a>
+    </div>
+</footer>
 
-    <p id="wut" onkeydown="func()"></p>
-</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.1.0/diff.min.js"></script>
+<script src="/static/js/page_controller.js"></script>
+<script src="/static/js/generate.js"></script>
+<script src="static/js/tokenizer.js"></script>

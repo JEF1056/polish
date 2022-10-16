@@ -216,6 +216,9 @@ class SentencePieceTokenizer {
 
 // Wow, finally writing some useful functions
 function detokenize(input_ids) {
+    if (!input_ids) {
+        return ""
+    }
     let [start, end] = [0, input_ids.length]
     if (input_ids[0] == 0) {start = 1}
     if (input_ids[input_ids.length-1] == 1) {end = -1}
