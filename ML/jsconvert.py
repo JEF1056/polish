@@ -5,8 +5,8 @@ import json
 import tensorflow as tf
 import sentencepiece as spm
 
-model = "/mnt/c/Users/jfan/Documents/GitHub/tfjs_byt5_demo/emotional-nocontext/simplet5-epoch-12-train-loss-2.979-val-loss-3.139"
-path = "model"
+model = "/mnt/c/Users/jfan/Documents/GitHub/grammarly/ML/models/simplet5-epoch-3-train-loss-0.8535-val-loss-1.012"
+path = "exported/assetonly"
 
 max_len = 64
 
@@ -46,7 +46,7 @@ for i in range(len(vals)):
         temp.append([vals[i], sp.GetScore(i)])
     except: pass
 print(len(temp))
-json.dump(temp, open("vocab_model.json", "w"))
+json.dump(temp, open(os.path.join(path, "tokenizer", "vocab_model.json"), "w"))
 
 model.save_pretrained(os.path.join(path, "model"), saved_model=True)
 
