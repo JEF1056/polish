@@ -2,15 +2,12 @@ let loaded_model = null
 let vocab = JSON.parse(localStorage.getItem("vocab"))
 let vocab_model = JSON.parse(localStorage.getItem("vocab_model"))
 let separator = "\u2581"
+let tokenizer;
 
-if (vocab === null || vocab_model === null) {
+if (vocab === null) {
     fetch('/tokenizer/vocab.json').then(result => result.json()).then((output) => {
         localStorage.setItem("vocab", JSON.stringify(output))
         vocab = output
-    }).catch(err => console.error(err));
-    fetch('/tokenizer/vocab_model.json').then(result => result.json()).then((output) => {
-        localStorage.setItem("vocab_model", JSON.stringify(output))
-        vocab_model = output
     }).catch(err => console.error(err));
 }
 
@@ -225,7 +222,15 @@ function detokenize(input_ids) {
     return input_ids.slice(start, end).map(token => vocab[token]).join("").replaceAll("▁", " ").trim()
 }
 
-tokenizer = new SentencePieceTokenizer(vocab_model)
+if (vocab_model === null) {
+    fetch('/tokenizer/vocab_model.json').then(result => result.json()).then((output) => {
+        localStorage.setItem("vocab_model", JSON.stringify(output))
+        vocab_model = output
+        tokenizer = new SentencePieceTokenizer(vocab_model)
+    }).catch(err => console.error(err));
+} else {
+    tokenizer = new SentencePieceTokenizer(vocab_model)
+}
 
 // yay, boilerplate becasue I don't want to spend any effort rn
 function tokenize(text) {
