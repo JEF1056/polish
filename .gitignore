@@ -132,3 +132,4 @@ exported*
 *.zip
 assetonly
 lightning_logs
+node_modules
