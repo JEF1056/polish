@@ -5,20 +5,33 @@ import LoadingScreen from "./components/LoadingScreen";
 import FooterComponent from "./components/FooterComponent";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import {tokenize, detokenize} from "./inference/tokenizer"
-import predict from "./inference/predict"
+import { tokenize, detokenize } from "./inference/tokenizer";
+import { ModelListener, predict } from "./inference/predict";
+import { RecoilRoot, atom, useRecoilValue } from "recoil";
 
-let page_loaded = false
+export const modelLoadedState = atom({
+    key: "modelLoaded",
+    default: false,
+});
+
+function Layout() {
+    const loaded = useRecoilValue(modelLoadedState);
+
+    return (
+        <React.StrictMode>
+            {!loaded ? <LoadingScreen /> : "Well, that's it"}
+            <FooterComponent />
+        </React.StrictMode>
+    );
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    {!page_loaded ? <LoadingScreen /> : ""}
-    <FooterComponent />
-  </React.StrictMode>
+    <RecoilRoot>
+        <Layout />
+        <ModelListener />
+    </RecoilRoot>
 );
-
-console.log(tokenize("Hi!"));
 
 // Use a service worker: https://cra.link/PWA
 serviceWorkerRegistration.register();

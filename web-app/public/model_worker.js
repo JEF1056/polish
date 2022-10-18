@@ -94,7 +94,7 @@ function generate(event) {
     });
 }
 
-tf.loadGraphModel('/model/model.json', {
+tf.loadGraphModel('/model/web/model.json', {
     onProgress: function(fraction) {
         self.postMessage({
             'type': 'info',
