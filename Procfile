@@ -1,1 +1,1 @@
-web: cd web && gunicorn main:app
+web: cd web-old && gunicorn main:app
