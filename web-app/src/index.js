@@ -5,9 +5,9 @@ import LoadingScreen from "./components/LoadingScreen";
 import FooterComponent from "./components/FooterComponent";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import { tokenize, detokenize } from "./inference/tokenizer";
-import { ModelListener, predict } from "./inference/predict";
+import { ModelListener, } from "./inference/predict";
 import { RecoilRoot, atom, useRecoilValue } from "recoil";
+import AppScreen from "./components/AppScreen";
 
 export const modelLoadedState = atom({
     key: "modelLoaded",
@@ -19,7 +19,7 @@ function Layout() {
 
     return (
         <React.StrictMode>
-            {!loaded ? <LoadingScreen /> : "Well, that's it"}
+            {!loaded ? <LoadingScreen /> : <AppScreen />}
             <FooterComponent />
         </React.StrictMode>
     );
