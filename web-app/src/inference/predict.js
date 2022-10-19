@@ -45,7 +45,7 @@ function ModelListener() {
                     case "loading":
                         setLoadingProgress(message["progress"] * 90);
                         if (message["progress"] === 1 && !warmup_started) {
-                            predict("warmup", warmup_prompt);
+                            predict("warmup", "complete: " + warmup_prompt);
                             warmup_started = true;
                         }
                         break;
