@@ -25,7 +25,7 @@ class AppScreen extends React.Component {
         this.setState({
             data: ReactDOMServer.renderToStaticMarkup(
                 segments.map((sentence) => (
-                    <span className="hover:bg-neutral rounded px-0.5">{sentence}</span>
+                    <span className="hover:bg-neutral rounded">{sentence}</span>
                 ))
             ),
         });
