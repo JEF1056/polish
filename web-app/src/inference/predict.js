@@ -29,8 +29,8 @@ function predict(id, input) {
 }
 
 function ModelListener() {
-    const [progress, setLoadingProgress] = useRecoilState(loadingProgressState);
-    const [warmup, setLoadingWarmup] = useRecoilState(loadingWarmupState);
+    const setLoadingProgress = useRecoilState(loadingProgressState)[1];
+    const setLoadingWarmup = useRecoilState(loadingWarmupState)[1];
     const [modelLoaded, setModelLoaded] = useRecoilState(modelLoadedState);
 
     model_worker.addEventListener("message", (event) => {
@@ -45,10 +45,11 @@ function ModelListener() {
                     case "loading":
                         setLoadingProgress(message["progress"] * 90);
                         if (message["progress"] === 1 && !warmup_started) {
-                            predict("warmup", warmup_prompt);
+                            predict("warmup", "complete: " + warmup_prompt);
                             warmup_started = true;
                         }
                         break;
+                    default:
                 }
                 break;
             case "work":
@@ -69,6 +70,7 @@ function ModelListener() {
                     setLoadingProgress(100);
                 }
                 break;
+            default:
         }
     });
 }
