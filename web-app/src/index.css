@@ -5,3 +5,8 @@
 ::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
 }
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans.ttf");
+}

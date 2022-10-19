@@ -3,7 +3,7 @@ import os
 
 
 app = Flask(__name__)
-model_path = "../web-app/improve_complete"
+model_path = "../web-app/public/model"
 
 @app.route('/model/<path:filename>', methods=['GET'])
 def download_model(filename):
