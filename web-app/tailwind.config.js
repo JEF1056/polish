@@ -3,9 +3,9 @@ module.exports = {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
         fontFamily: {
-            'display': ['"Open Sans"', 'Roboto'],
-            'body': ['"Open Sans"', 'Roboto'],
-        }
+            display: ['"Open Sans"', "Roboto"],
+            body: ['"Open Sans"', "Roboto"],
+        },
     },
     plugins: [require("@tailwindcss/typography"), require("daisyui")],
     daisyui: {

@@ -65,7 +65,8 @@ function ModelListener() {
                                     ? detokenized
                                     : " " + detokenized
                             );
-                            console.log(continueText)
+                            console.log(continueText);
+                            break;
                         case "warmup":
                             setLoadingWarmup(
                                 warmup_prompt +
@@ -73,6 +74,8 @@ function ModelListener() {
                                         ? detokenized
                                         : " " + detokenized)
                             );
+                            break;
+                        default:
                     }
                 }
                 break;
