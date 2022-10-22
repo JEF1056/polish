@@ -5,11 +5,23 @@ import * as cldrSegmentation from "cldr-segmentation";
 import { atom, RecoilRoot, useRecoilState } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import NavBarComponent from "./NavBarComponent";
-import { v4 as uuid } from "uuid";
 import { predict } from "../inference/predict";
 
 const { persistAtom } = recoilPersist();
-const dividingCharacter = "\u200b";
+export const dividingCharacter = "\u200b";
+
+String.prototype.hashCode = function () {
+    var hash = 0,
+        i,
+        chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        chr = this.charCodeAt(i);
+        hash = (hash << 5) - hash + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
 
 export const inputTextState = atom({
     key: "inputText",
@@ -25,10 +37,28 @@ export const continueTextState = atom({
 function createStyledOutput(inputText, continueText) {
     return ReactDOMServer.renderToStaticMarkup(
         <RecoilRoot>
-            {inputText.map((sentence) => (
-                <span key={uuid()} className="hover:bg-neutral rounded">
-                    {sentence}
-                </span>
+            {inputText.map((sentence, index) => (
+                <div class="dropdown dropdown-hover">
+                    <span
+                        key={(sentence + " - " + index.toString()).hashCode()}
+                        id={(sentence + " - " + index.toString()).hashCode()}
+                        className="hover:bg-neutral rounded"
+                    >
+                        {sentence}
+                    </span>
+                    <ul
+                        contentEditable={false}
+                        tabindex="0"
+                        class="dropdown-content menu shadow bg-base-200 rounded-box"
+                    >
+                        <li>
+                            <a>Item 1</a>
+                        </li>
+                        <li>
+                            <a>Item 2</a>
+                        </li>
+                    </ul>
+                </div>
             ))}
             <span
                 className="opacity-50 hover:bg-base-100 rounded"
@@ -53,7 +83,7 @@ class App extends React.Component {
         console.log(event);
 
         // do not react to arrow or meta key events
-        if (!event.code) {
+        if (!event.code && event.type !== "blur") {
             clearTimeout(this.completionTimeout);
 
             // get sentence segmentation
@@ -88,7 +118,7 @@ class App extends React.Component {
                                     ? this.props.atoms.inputText.value.length
                                     : 0
                             ),
-                    10
+                    1
                 );
             }
 
