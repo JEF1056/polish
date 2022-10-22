@@ -51,7 +51,8 @@ registerRoute(
 registerRoute(
     // Add in any other file extensions or routing criteria as needed.
     ({ url }) =>
-        (url.origin === "cdn.jsdelivr.net" || url.origin === self.location.origin) &&
+        (url.origin === "cdn.jsdelivr.net" ||
+            url.origin === self.location.origin) &&
         (url.pathname.endsWith(".png") ||
             url.pathname.endsWith(".bin") ||
             url.pathname.endsWith(".json") ||

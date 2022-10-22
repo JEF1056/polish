@@ -5,7 +5,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import FooterComponent from "./components/FooterComponent";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import { ModelListener, } from "./inference/predict";
+import { ModelListener } from "./inference/predict";
 import { RecoilRoot, atom, useRecoilValue } from "recoil";
 import AppScreen from "./components/AppScreen";
 

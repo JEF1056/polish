@@ -1,9 +1,10 @@
 import { tokenize, detokenize } from "./tokenizer";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
     loadingProgressState,
     loadingWarmupState,
 } from "../components/LoadingScreen";
+import { continueTextState } from "../components/AppScreen";
 import { modelLoadedState } from "../index";
 
 const model_worker = new Worker("/model_worker.js");
@@ -24,13 +25,15 @@ fetch("/midnightquotes.txt")
 
 function predict(id, input) {
     // Model worker accepts UUID and message id
-    model_worker.postMessage([id, tokenize(input)]);
+    model_worker.postMessage([id, tokenize(input.trim())]);
     console.log("input", input);
 }
 
 function ModelListener() {
-    const setLoadingProgress = useRecoilState(loadingProgressState)[1];
-    const setLoadingWarmup = useRecoilState(loadingWarmupState)[1];
+    const [continueText, setContinueText] = useRecoilState(continueTextState);
+
+    const setLoadingProgress = useSetRecoilState(loadingProgressState);
+    const setLoadingWarmup = useSetRecoilState(loadingWarmupState);
     const [modelLoaded, setModelLoaded] = useRecoilState(modelLoadedState);
 
     model_worker.addEventListener("message", (event) => {
@@ -55,13 +58,25 @@ function ModelListener() {
             case "work":
                 if (!modelLoaded) {
                     let detokenized = detokenize(message["tokens"]);
-                    console.log(detokenized);
-                    setLoadingWarmup(
-                        warmup_prompt +
-                            (detokenized.startsWith(" ")
-                                ? detokenized
-                                : " " + detokenized)
-                    );
+                    switch (message["id"]) {
+                        case "continue":
+                            setContinueText(
+                                detokenized.startsWith(" ")
+                                    ? detokenized
+                                    : " " + detokenized
+                            );
+                            console.log(continueText);
+                            break;
+                        case "warmup":
+                            setLoadingWarmup(
+                                warmup_prompt +
+                                    (detokenized.startsWith(" ")
+                                        ? detokenized
+                                        : " " + detokenized)
+                            );
+                            break;
+                        default:
+                    }
                 }
                 break;
             case "done":
